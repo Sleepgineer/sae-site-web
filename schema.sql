@@ -50,7 +50,7 @@ CREATE TABLE stats (
 -- Un type peut avoir PLUSIEURS attaques
 -- =============================================================
 CREATE TABLE attaques (
-    id_a INT NOT NULL AUTO_INCREMENT,
+    id_a INT NOT NULL,
     libelle VARCHAR(50) NOT NULL,
     id_type INT NOT NULL,
     pp INT NOT NULL,
