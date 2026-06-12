@@ -1,7 +1,7 @@
--- Peuplement de la base de donnéesTO
+-- Peuplement de la base de données
 
 -- http://www.g33kmania.com/liste-pokemon-generation-1/
-INSERT INTO pokemons (nom) VALUES
+INSERT INTO pokemon (nom) VALUES
 	('Bulbizarre'),
 	('Herbizarre'),
 	('Florizarre'),
@@ -155,7 +155,7 @@ INSERT INTO pokemons (nom) VALUES
 	('Mew');
 
 INSERT INTO types (libelle) VALUES 
-    ('Acier')
+    ('Acier'),
 	('Combat'),
 	('Dragon'),
 	('Eau'),

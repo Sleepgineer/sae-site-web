@@ -1,8 +1,8 @@
 <?php
 $host   = "localhost";
 $dbname = "pokemon_db";
-$user   = "root";
-$pass   = "pokemon123";
+$user   = "nom_utilisateur";
+$pass   = "mot_de_passe";
  
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
