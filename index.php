@@ -2,7 +2,7 @@
 require 'db.php';
 $nom = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 
-// ── Requête 1 : nom + types ──
+// Requête SQL pour l'accueil
 $stmt = $pdo->prepare("
     SELECT p.id_pkmn, p.nom, GROUP_CONCAT(t.libelle SEPARATOR ' / ') AS types, s.pv, s.attaque, s.defense, s.attaque_spe, s.defense_spe, s.vitesse
     FROM pokemon p, types t, est_type et, stats s
@@ -15,7 +15,6 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute(['%' . $nom . '%']);
 $pokemons = $stmt->fetchAll();
-
 ?>
 
 <!DOCTYPE html>
@@ -23,34 +22,64 @@ $pokemons = $stmt->fetchAll();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Yassine_Benmerah_&_Chahine_Choudar">
   <title>MyPokeDex</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <p> MyPokeDex </p>
-    </header>
-    <div class="container">
-        <div class="row">
-            <?php foreach($pokemons as $p): ?>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <p>
-                                <strong><?= htmlspecialchars($p['id_pkmn']) ?> <?= htmlspecialchars($p['nom']) ?></strong> <?= htmlspecialchars($p['types']) ?>
-                                <?= htmlspecialchars($p['pv']) ?> 
-                                <?= htmlspecialchars($p['attaque']) ?> 
-                                <?= htmlspecialchars($p['defense']) ?> 
-                                <?= htmlspecialchars($p['attaque_spe']) ?> 
-                                <?= htmlspecialchars($p['defense_spe']) ?> 
-                                <?= htmlspecialchars($p['vitesse']) ?> 
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">MyPokeDex</a>
         </div>
-    </div>
+    </nav>
+    <table class="table table-striped table-hover">
+        <thead class="table-secondary">
+            <tr>
+                <th> Numéro de Pokédex </th>
+                <th> Nom </th>
+                <th> Types </th>
+                <th> PV </th>
+                <th> Attaque </th>
+                <th> Défense </th>
+                <th> Attaque spéciale </th>
+                <th> Défense spéciale </th>
+                <th> Vitesse </th>
+            </tr>   
+        </thead>
+        <tbody id ="core">
+            <?php foreach($pokemons as $p): ?>
+                <tr>
+                    <td> 
+                        <strong> <?= htmlspecialchars($p['id_pkmn']) ?> </strong>
+                    </td>
+                    <td>
+                         <strong> <?= htmlspecialchars($p['nom']) ?> </strong>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['types']) ?>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['pv']) ?> 
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['attaque']) ?> 
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['defense']) ?> 
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['attaque_spe']) ?> 
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['defense_spe']) ?> 
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($p['vitesse']) ?> 
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
