@@ -4,7 +4,7 @@ $nom = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 
 // Requête SQL pour l'accueil
 $stmt = $pdo->prepare("
-    SELECT p.id_pkmn, p.nom, GROUP_CONCAT(t.libelle SEPARATOR ' / ') AS types, s.pv, s.attaque, s.defense, s.attaque_spe, s.defense_spe, s.vitesse
+    SELECT p.id_pkmn, p.nom, GROUP_CONCAT(t.libelle SEPARATOR '/') AS types, s.pv, s.attaque, s.defense, s.attaque_spe, s.defense_spe, s.vitesse
     FROM pokemon p, types t, est_type et, stats s
     WHERE et.id_pkmn = p.id_pkmn
     AND t.id_type = et.id_type
@@ -15,6 +15,15 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute(['%' . $nom . '%']);
 $pokemons = $stmt->fetchAll();
+
+// Fonction pour construire le path des images des types
+function convertTypesEnImages($types) {
+    $path = '';
+    foreach (explode('/', $types) as $t) {
+        $path .= '<img class="img-type" src="images/' . strtolower(trim($t)) . '.png">';
+    }
+    return $path;
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +33,8 @@ $pokemons = $stmt->fetchAll();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Yassine_Benmerah_&_Chahine_Choudar">
   <title>MyPokeDex</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
@@ -56,7 +66,7 @@ $pokemons = $stmt->fetchAll();
                          <strong> <?= htmlspecialchars($p['nom']) ?> </strong>
                     </td>
                     <td>
-                        <?= htmlspecialchars($p['types']) ?>
+                        <?= convertTypesEnImages($p['types']) ?>
                     </td>
                     <td>
                         <?= htmlspecialchars($p['pv']) ?> 
