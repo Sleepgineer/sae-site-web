@@ -1,5 +1,6 @@
 <?php
 require 'db.php';
+require 'fonctions.php';
 $nom = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 
 // Requête SQL pour l'accueil
@@ -15,15 +16,6 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute(['%' . $nom . '%']);
 $pokemons = $stmt->fetchAll();
-
-// Fonction pour construire le path des images des types
-function convertTypesEnImages($types) {
-    $path = '';
-    foreach (explode('/', $types) as $t) {
-        $path .= '<img class="img-type" src="images/' . strtolower(trim($t)) . '.png">';
-    }
-    return $path;
-}
 ?>
 
 <!DOCTYPE html>
