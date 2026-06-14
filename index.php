@@ -63,7 +63,7 @@ function convertTypesEnImages($types) {
                         <strong> <?= htmlspecialchars($p['id_pkmn']) ?> </strong>
                     </td>
                     <td>
-                         <strong> <?= htmlspecialchars($p['nom']) ?> </strong>
+                        <a href="pkmn.php?id=<?= $p['id_pkmn'] ?>"> <?= htmlspecialchars($p['nom']) ?> </a>
                     </td>
                     <td>
                         <?= convertTypesEnImages($p['types']) ?>
