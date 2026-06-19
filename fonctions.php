@@ -8,6 +8,4 @@ function convertTypesEnImages($types) {
     return $path;
 }
 
-// Fonction pour récupérer 
-
 ?>

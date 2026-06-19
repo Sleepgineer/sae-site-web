@@ -27,8 +27,10 @@ CREATE TABLE types (
 CREATE TABLE pokemon (
     id_pkmn INT NOT NULL AUTO_INCREMENT,
     nom VARCHAR(30) NOT NULL,
+    id_famille INT NOT NULL,    -- référencie les Pokémon qui sont dans une même famille
     CONSTRAINT cle_pokemon PRIMARY KEY (id_pkmn),
-    CONSTRAINT nom_pkmn_unique UNIQUE (nom)        
+    CONSTRAINT nom_pkmn_unique UNIQUE (nom),    -- nom unique car pas de forme régionale pour notre projet
+    CONSTRAINT id_famille_valide CHECK (id_famille > 0)        
 );
 
 -- =============================================================
@@ -102,7 +104,6 @@ CREATE TABLE evolue_en (
     id_pkmn_base INT NOT NULL,   -- le Pokémon de départ
     id_pkmn_evo INT NOT NULL,   -- le Pokémon d'arrivée
     methode VARCHAR(50) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
-    id_famille INT NOT NULL,    -- référencie les Pokémon qui sont dans une même famille
 
     CONSTRAINT cle_evolue_en PRIMARY KEY (id_pkmn_base, id_pkmn_evo),
     CONSTRAINT cle_etrangere_pkmn_base
@@ -115,6 +116,5 @@ CREATE TABLE evolue_en (
         REFERENCES pokemon (id_pkmn)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT chk_evolution CHECK (id_pkmn_base <> id_pkmn_evo),
-    CONSTRAINT id_famille_valide CHECK (id_famille > 0)
+    CONSTRAINT chk_evolution CHECK (id_pkmn_base <> id_pkmn_evo)
 );
