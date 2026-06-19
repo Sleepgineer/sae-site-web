@@ -29,7 +29,7 @@ CREATE TABLE pokemon (
     nom VARCHAR(30) NOT NULL,
     id_famille INT NOT NULL,    -- référencie les Pokémon qui sont dans une même famille
     CONSTRAINT cle_pokemon PRIMARY KEY (id_pkmn),
-    CONSTRAINT nom_pkmn_unique UNIQUE (nom),
+    CONSTRAINT nom_pkmn_unique UNIQUE (nom),    -- nom unique car pas de forme régionale pour notre projet
     CONSTRAINT id_famille_valide CHECK (id_famille > 0)        
 );
 

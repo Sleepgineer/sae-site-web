@@ -486,22 +486,22 @@ INSERT INTO est_type (id_pkmn, id_type) VALUES
 	(151, 12);
 
 -- evolutions
-INSERT INTO evolue_en (id_pkmn_base, id_pkmn_evo, methode, id_famille) VALUES
+INSERT INTO evolue_en (id_pkmn_base, id_pkmn_evo, methode) VALUES
 -- http://www.pokepedia.fr/Liste_des_Pok%C3%A9mon_par_famille_d%27%C3%A9volution
-	(  1,   2, '16', 1),
-	(  2,   3, '32', 1),
-	(  4,   5, '16', 2),
-	(  5,   6, '36', 2),
-	(  7,   8, '16', 3),
-	(  8,   9, '36', 3),
-	( 10,  11, '7' , 4),
-	( 11,  12, '10', 4),
-	( 13,  14, '7', 5),
-	( 14,  15, '10', 5),
-	( 16,  17, '18', 6),
-	( 17,  18, '36', 6),
-	( 19,  20, '20', 7),
-	( 21,  22, '20', 8),
+	(  1,   2, '16'),
+	(  2,   3, '32'),
+	(  4,   5, '16'),
+	(  5,   6, '36'),
+	(  7,   8, '16'),
+	(  8,   9, '36'),
+	( 10,  11, '7'),
+	( 11,  12, '10'),
+	( 13,  14, '7'),
+	( 14,  15, '10'),
+	( 16,  17, '18'),
+	( 17,  18, '36'),
+	( 19,  20, '20'),
+	( 21,  22, '20'),
 	( 23,  24, '22'),
 	( 25,  26, 'Pierre foudre'),
 	( 27,  28, '22'),
