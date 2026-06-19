@@ -1,8 +1,9 @@
 <?php
 require 'db.php';
-$nom = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
+require 'fonctions.php';
 
-// Requête SQL pour l'accueil
+$recherche = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
+
 $stmt = $pdo->prepare("
     SELECT p.id_pkmn, p.nom, GROUP_CONCAT(t.libelle SEPARATOR '/') AS types, s.pv, s.attaque, s.defense, s.attaque_spe, s.defense_spe, s.vitesse
     FROM pokemon p, types t, est_type et, stats s
@@ -13,83 +14,131 @@ $stmt = $pdo->prepare("
     GROUP BY p.id_pkmn, p.nom, s.pv, s.attaque, s.defense, s.attaque_spe, s.defense_spe, s.vitesse
     ORDER BY p.id_pkmn
 ");
-$stmt->execute(['%' . $nom . '%']);
-$pokemons = $stmt->fetchAll();
 
-// Fonction pour construire le path des images des types
-function convertTypesEnImages($types) {
-    $path = '';
-    foreach (explode('/', $types) as $t) {
-        $path .= '<img class="img-type" src="images/' . strtolower(trim($t)) . '.png">';
-    }
-    return $path;
-}
+$stmt->execute(['%' . $recherche . '%']);
+$pokemons = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Yassine_Benmerah_&_Chahine_Choudar">
-  <title>MyPokeDex</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Yassine_Benmerah_&_Chahine_Choudar">
+
+    <title>MyPokeDex</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">MyPokeDex</a>
         </div>
     </nav>
+
+    <div class="container mt-4 mb-4">
+        <form method="get" action="index.php">
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    name="recherche"
+                    class="form-control"
+                    placeholder="Rechercher un Pokémon..."
+                    value="<?= htmlspecialchars($recherche) ?>"
+                >
+
+                <button type="submit" class="btn btn-primary">
+                    Rechercher
+                </button>
+
+                <a href="index.php" class="btn btn-secondary">
+                    Réinitialiser
+                </a>
+
+            </div>
+        </form>
+    </div>
+
     <table class="table table-striped table-hover">
+
         <thead class="table-secondary">
             <tr>
-                <th> Numéro de Pokédex </th>
-                <th> Nom </th>
-                <th> Types </th>
-                <th> PV </th>
-                <th> Attaque </th>
-                <th> Défense </th>
-                <th> Attaque spéciale </th>
-                <th> Défense spéciale </th>
-                <th> Vitesse </th>
-            </tr>   
+                <th>Numéro de Pokédex</th>
+                <th>Nom</th>
+                <th>Types</th>
+                <th>PV</th>
+                <th>Attaque</th>
+                <th>Défense</th>
+                <th>Attaque spéciale</th>
+                <th>Défense spéciale</th>
+                <th>Vitesse</th>
+            </tr>
         </thead>
-        <tbody id ="core">
-            <?php foreach($pokemons as $p): ?>
+
+        <tbody id="table">
+
+            <?php foreach ($pokemons as $pokemon): ?>
+
                 <tr>
-                    <td> 
-                        <strong> <?= htmlspecialchars($p['id_pkmn']) ?> </strong>
-                    </td>
                     <td>
-                         <strong> <?= htmlspecialchars($p['nom']) ?> </strong>
+                        <strong>
+                            <?= htmlspecialchars($pokemon['id_pkmn']) ?>
+                        </strong>
                     </td>
+
                     <td>
-                        <?= convertTypesEnImages($p['types']) ?>
+                        <a href="pkmn.php?id=<?= htmlspecialchars($pokemon['id_pkmn']) ?>">
+                            <?= htmlspecialchars($pokemon['nom']) ?>
+                        </a>
                     </td>
+
                     <td>
-                        <?= htmlspecialchars($p['pv']) ?> 
+                        <?= convertTypesEnImages($pokemon['types']) ?>
                     </td>
+
                     <td>
-                        <?= htmlspecialchars($p['attaque']) ?> 
+                        <?= htmlspecialchars($pokemon['pv']) ?>
                     </td>
+
                     <td>
-                        <?= htmlspecialchars($p['defense']) ?> 
+                        <?= htmlspecialchars($pokemon['attaque']) ?>
                     </td>
+
                     <td>
-                        <?= htmlspecialchars($p['attaque_spe']) ?> 
+                        <?= htmlspecialchars($pokemon['defense']) ?>
                     </td>
+
                     <td>
-                        <?= htmlspecialchars($p['defense_spe']) ?> 
+                        <?= htmlspecialchars($pokemon['attaque_spe']) ?>
                     </td>
+
                     <td>
-                        <?= htmlspecialchars($p['vitesse']) ?> 
+                        <?= htmlspecialchars($pokemon['defense_spe']) ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($pokemon['vitesse']) ?>
                     </td>
                 </tr>
+
             <?php endforeach; ?>
+
         </tbody>
     </table>
+
+    <?php if (count($pokemons) === 0): ?>
+        <div class="container">
+            <p>Aucun Pokémon trouvé.</p>
+        </div>
+    <?php endif; ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

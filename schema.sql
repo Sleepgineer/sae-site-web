@@ -3,6 +3,13 @@
 CREATE DATABASE IF NOT EXISTS pokemon_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE pokemon_db;
 
+DROP TABLE IF EXISTS types;
+DROP TABLE IF EXISTS pokemon;
+DROP TABLE IF EXISTS stats;
+DROP TABLE IF EXISTS attaques;
+DROP TABLE IF EXISTS est_type;
+DROP TABLE IF EXISTS evolue_en;
+
 -- =============================================================
 -- TABLE types
 -- =============================================================
@@ -50,7 +57,7 @@ CREATE TABLE stats (
 -- Un type peut avoir PLUSIEURS attaques
 -- =============================================================
 CREATE TABLE attaques (
-    id_a INT NOT NULL,
+    id_a INT NOT NULL AUTO_INCREMENT,
     libelle VARCHAR(50) NOT NULL,
     id_type INT NOT NULL,
     pp INT NOT NULL,
@@ -59,7 +66,7 @@ CREATE TABLE attaques (
     CONSTRAINT cle_attaques PRIMARY KEY (id_a),
     CONSTRAINT cle_etrangere_attaques_type
         FOREIGN KEY (id_type)
-        REFERENCES types (id)
+        REFERENCES types (id_type)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     CONSTRAINT nb_pp CHECK (pp > 0),
@@ -90,13 +97,12 @@ CREATE TABLE est_type (
 -- =============================================================
 -- TABLE : evolue_en  ← RELATION spéciale : pokemons → pokemons
 -- Un Pokémon peut évoluer vers un autre Pokémon
--- niveau = -1 signifie évolution par Pierre
--- niveau = -2 signifie évolution par échange
 -- =============================================================
 CREATE TABLE evolue_en (
     id_pkmn_base INT NOT NULL,   -- le Pokémon de départ
     id_pkmn_evo INT NOT NULL,   -- le Pokémon d'arrivée
-    niveau INT NOT NULL,            -- niveau requis (-1 = pierre, -2 = échange)
+    methode VARCHAR(50) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
+    id_famille INT NOT NULL,    -- référencie les Pokémon qui sont dans une même famille
 
     CONSTRAINT cle_evolue_en PRIMARY KEY (id_pkmn_base, id_pkmn_evo),
     CONSTRAINT cle_etrangere_pkmn_base
@@ -108,5 +114,7 @@ CREATE TABLE evolue_en (
         FOREIGN KEY (id_pkmn_evo)
         REFERENCES pokemon (id_pkmn)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT chk_evolution CHECK (id_pkmn_base <> id_pkmn_evo),
+    CONSTRAINT id_famille_valide CHECK (id_famille > 0)
 );
