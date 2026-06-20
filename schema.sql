@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS attaques;
 DROP TABLE IF EXISTS est_type;
 DROP TABLE IF EXISTS evolue_en;
 DROP TABLE IF EXISTS apprend;
+DROP TABLE IF EXISTS talent;
+DROP TABLE IF EXISTS possede;
 
 -- =============================================================
 -- TABLE types
@@ -80,6 +82,7 @@ CREATE TABLE attaques (
 -- TABLE : est_type  ← RELATION N-N entre pokemons et types
 -- Un Pokémon peut avoir 1 ou 2 types
 -- Un type peut appartenir à plusieurs Pokémon
+-- On a aussi une relation 1-N entre et attaques et types
 -- =============================================================
 CREATE TABLE est_type (
     id_pkmn INT NOT NULL,
@@ -138,6 +141,38 @@ CREATE TABLE apprend (
     CONSTRAINT cle_etrangere_apprend_a 
         FOREIGN KEY (id_a)
         REFERENCES attaques (id_a)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- =============================
+-- TABLE : talent
+-- ============================= 
+
+CREATE TABLE talent (
+    label VARCHAR(30),
+    detail VARCHAR(100),
+    CONSTRAINT cle_talent PRIMARY KEY (label)
+);
+
+-- =============================
+-- TABLE : possede
+-- Un Pokémon peut avoir 1 ou 2 talents
+-- Un même talent peut appartenir à plusieurs Pokémons différents 
+-- =============================
+
+CREATE TABLE possede (
+    id_pkmn INT NOT NULL,
+    label VARCHAR(30),
+    CONSTRAINT cle_possede PRIMARY KEY (id_pkmn, label),
+    CONSTRAINT cle_etrangere_possede_pkmn 
+        FOREIGN KEY (id_pkmn)
+        REFERENCES pokemon (id_pkmn)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT cle_etrangere_possede_talent 
+        FOREIGN KEY (label)
+        REFERENCES talent (label)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
