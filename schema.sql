@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS stats;
 DROP TABLE IF EXISTS attaques;
 DROP TABLE IF EXISTS est_type;
 DROP TABLE IF EXISTS evolue_en;
+DROP TABLE IF EXISTS apprend;
 
 -- =============================================================
 -- TABLE types
@@ -104,6 +105,7 @@ CREATE TABLE evolue_en (
     id_pkmn_base INT NOT NULL,   -- le Pokémon de départ
     id_pkmn_evo INT NOT NULL,   -- le Pokémon d'arrivée
     methode VARCHAR(50) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
+    prio INT NOT NULL,  -- niveau de priorite, utile pour l'affichage 
 
     CONSTRAINT cle_evolue_en PRIMARY KEY (id_pkmn_base, id_pkmn_evo),
     CONSTRAINT cle_etrangere_pkmn_base
@@ -118,3 +120,25 @@ CREATE TABLE evolue_en (
         ON UPDATE CASCADE,
     CONSTRAINT chk_evolution CHECK (id_pkmn_base <> id_pkmn_evo)
 );
+
+-- =============================================
+-- TABLE : apprend
+-- Relation N-N : une attaque peut être apprise par plusieurs pokémons et un pokémon peut apprendre plusieurs attaques
+-- ============================================
+CREATE TABLE apprend (
+    id_pkmn INT NOT NULL,
+    id_a INT NOT NULL,
+    biais VARCHAR(50) NOT NULL,  -- par quel moyen le Pokémon apprend l'attaque : niveau, reproduction, CT,...
+    CONSTRAINT cle_apprend PRIMARY KEY (id_pkmn, id_a),
+    CONSTRAINT cle_etrangere_apprend_pkmn 
+        FOREIGN KEY (id_pkmn)
+        REFERENCES pokemon (id_pkmn)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT cle_etrangere_apprend_a 
+        FOREIGN KEY (id_a)
+        REFERENCES attaques (id_a)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
