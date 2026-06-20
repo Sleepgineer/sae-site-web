@@ -104,7 +104,7 @@ CREATE TABLE est_type (
 CREATE TABLE evolue_en (
     id_pkmn_base INT NOT NULL,   -- le Pokémon de départ
     id_pkmn_evo INT NOT NULL,   -- le Pokémon d'arrivée
-    methode VARCHAR(50) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
+    methode VARCHAR(100) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
     prio INT NOT NULL,  -- niveau de priorite, utile pour l'affichage 
 
     CONSTRAINT cle_evolue_en PRIMARY KEY (id_pkmn_base, id_pkmn_evo),
