@@ -34,6 +34,7 @@ $pokemons = $stmt->fetchAll();
 </head>
 
 <body>
+    <script src="tri.js"></script>
 
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
@@ -68,6 +69,18 @@ $pokemons = $stmt->fetchAll();
     <table class="table table-striped table-hover">
 
         <thead class="table-secondary">
+            <tr>
+                <th><button onclick="trier(0, 'nombre')">↓</button></th>
+                <th><button onclick="trier(1, 'texte')">↓</button></th>
+                <th></th>
+                <th><button onclick="trier(3, 'nombre')">↓</button></th>
+                <th><button onclick="trier(4, 'nombre')">↓</button></th>
+                <th><button onclick="trier(5, 'nombre')">↓</button></th>
+                <th><button onclick="trier(6, 'nombre')">↓</button></th>
+                <th><button onclick="trier(7, 'nombre')">↓</button></th>
+                <th><button onclick="trier(8, 'nombre')">↓</button></th>
+            </tr>
+
             <tr>
                 <th>Numéro de Pokédex</th>
                 <th>Nom</th>
