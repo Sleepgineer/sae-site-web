@@ -69,18 +69,49 @@ $pokemons = $stmt->fetchAll();
     <table class="table table-striped table-hover">
 
         <thead class="table-secondary">
-            <tr>
-                <th><button onclick="trier(0, 'nombre')">↓</button></th>
-                <th><button onclick="trier(1, 'texte')">↓</button></th>
-                <th></th>
-                <th><button onclick="trier(3, 'nombre')">↓</button></th>
-                <th><button onclick="trier(4, 'nombre')">↓</button></th>
-                <th><button onclick="trier(5, 'nombre')">↓</button></th>
-                <th><button onclick="trier(6, 'nombre')">↓</button></th>
-                <th><button onclick="trier(7, 'nombre')">↓</button></th>
-                <th><button onclick="trier(8, 'nombre')">↓</button></th>
-            </tr>
+                    <tr>
+            <th>
+                <button onclick="trier(0, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(0, 'nombre', 'decroissant')">↓</button>
+            </th>
 
+            <th>
+                <button onclick="trier(1, 'texte', 'croissant')">↑</button>
+                <button onclick="trier(1, 'texte', 'decroissant')">↓</button>
+            </th>
+
+            <th></th>
+
+            <th>
+                <button onclick="trier(3, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(3, 'nombre', 'decroissant')">↓</button>
+            </th>
+
+            <th>
+                <button onclick="trier(4, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(4, 'nombre', 'decroissant')">↓</button>
+            </th>
+
+            <th>
+                <button onclick="trier(5, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(5, 'nombre', 'decroissant')">↓</button>
+            </th>
+
+            <th>
+                <button onclick="trier(6, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(6, 'nombre', 'decroissant')">↓</button>
+            </th>
+
+            <th>
+                <button onclick="trier(7, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(7, 'nombre', 'decroissant')">↓</button>
+            </th>
+
+            <th>
+                <button onclick="trier(8, 'nombre', 'croissant')">↑</button>
+                <button onclick="trier(8, 'nombre', 'decroissant')">↓</button>
+            </th>
+        </tr>
             <tr>
                 <th>Numéro de Pokédex</th>
                 <th>Nom</th>

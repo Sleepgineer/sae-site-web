@@ -1,4 +1,4 @@
-function trier(colonne, type) {
+function trier(colonne, type, ordre) {
     const tbody = document.getElementById("table");
     const lignes = Array.from(tbody.querySelectorAll("tr"));
 
@@ -10,13 +10,17 @@ function trier(colonne, type) {
             valeurA = Number(valeurA);
             valeurB = Number(valeurB);
 
-            if (colonne === 0) {
+            if (ordre === "croissant") {
                 return valeurA - valeurB;
             } else {
                 return valeurB - valeurA;
             }
         } else {
-            return valeurA.localeCompare(valeurB);
+            if (ordre === "croissant") {
+                return valeurA.localeCompare(valeurB);
+            } else {
+                return valeurB.localeCompare(valeurA);
+            }
         }
     });
 
