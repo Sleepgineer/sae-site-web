@@ -1,6 +1,4 @@
---===========--
-    Préface
---===========--
+####  Préface
 
 Nom du projet : MyPokéDex
 Auteurs : Yassine BENMERAH et Chahine CHOUDAR, étudiants en INFO1 à Sup Galilée
@@ -9,24 +7,22 @@ Projet réalisé en juin 2026
 Ce répertoire contient le travail réalisé pour la SAÉ site web. Notre projet est un Pokédex interactif majoritairement en PHP qui effectue des requêtes SQL en local grâce à la PDO.
 La base de données est stockée en local grâce à WAMP/XAMPP et phpMyAdmin.
 
---===================--
-    Fonctionnalités
---===================--
+---
+#### Fonctionnalités
 
-Voici les différentes fonctionnalités de l'application :
 
-    - index.php : page d'accueil du site. Elle contient la liste des 493 premiers Pokémons, donc de la première à la quatrième génération (de Bulbizarre à Arceus).
-    Chaque Pokémon est décrit par son numéro de Pokédex, son nom, son ou ses types et ses statistiques : PV, attaque, défense, attaque spéciale, défense spéciale et vitesse. À l'exception des types, chaque attribut peut être trié par ordre croissant/décroissant, ou par ordre alphabétique pour le nom. Des boutons fléchés font appel au fichier tri.js pour gérer de manière dynamique l'affichage selon le tri voulu. Par ailleurs, les types sont représentés par des images disponibles dans les assets. Enfin, la barre de recherche permet d'effectuer une recherche selon des noms de Pokémon. Le motif voulu passe en paramètre d'une requête SQL préconstruite avec PDO. Chaque ligne contient un lien cliquable vers pkmn.php, qui changera selon l'id du Pokémon sélectionné.
-    - pkmn.php : page dédiée à l'affichage d'informations plus détaillées d'un Pokémon. Avec des requêtes SQL différentes, la page affiche les statistiques du Pokémon, son sprite (image issue des jeux Pokémon Noir 2/Blanc 2 - récupérée depuis PokeAPI) et son arbre d'évolution. En dessous, la page liste également les attaques que le Pokémon peut apprendre et de quelle manière. La page référencie également le ou les talents que possède le Pokémon. Comme dans index.php, les Pokémons qui partagent un arbre évolutif et les attaques apprises sont accessibles avec des liens cliquables. Petit bonus : cliquer sur le nom du Pokémon (le titre en haut de page) permet de changer le sprite du Pokémon en sa version shiny (un coloris différent). Un son est également joué pour la transition sprite normal -> sprite shiny. Tout cet aspect sur les sprites shiny est géré par le script shiny.js. Un bouton retour permet de retourner à la page index.php.
-    - attaque.php : page dédiée à l'affichage d'informations d'une attaque et des Pokémons pouvant l'apprendre. Comme index.php, des requêtes SQL sont préparées avec PDO pour sélectionner une fraction de nos données. De façon analogue aux autres fichiers, il est possible d'accéder aux Pokémons qui apprennent une attaque avec des liens cliquables. Un bouton retour permet de retourner à la page index.php.
+Voici les différentes fonctionnalités de l'application selon les différentes pages ouvertes :
+
+- index.php : page d'accueil du site. Elle contient la liste des 493 premiers Pokémons, donc de la première à la quatrième génération (de Bulbizarre à Arceus). Chaque Pokémon est décrit par son numéro de Pokédex, son nom, son ou ses types et ses statistiques : PV, attaque, défense, attaque spéciale, défense spéciale et vitesse. À l'exception des types, chaque attribut peut être trié par ordre croissant/décroissant, ou par ordre alphabétique pour le nom. Des boutons fléchés font appel au fichier tri.js pour gérer de manière dynamique l'affichage selon le tri voulu. Par ailleurs, les types sont représentés par des images disponibles dans les assets. Enfin, la barre de recherche permet d'effectuer une recherche selon des noms de Pokémon. Le motif voulu passe en paramètre d'une requête SQL préconstruite avec PDO. Chaque ligne contient un lien cliquable vers pkmn.php, qui changera selon l'id du Pokémon sélectionné.
+- pkmn.php : page dédiée à l'affichage d'informations plus détaillées d'un Pokémon. Avec des requêtes SQL différentes, la page affiche les statistiques du Pokémon, son sprite (image issue des jeux Pokémon Noir 2/Blanc 2 - récupérée depuis PokeAPI) et son arbre d'évolution. En dessous, la page liste également les attaques que le Pokémon peut apprendre et de quelle manière. La page référencie également le ou les talents que possède le Pokémon. Comme dans index.php, les Pokémons qui partagent un arbre évolutif et les attaques apprises sont accessibles avec des liens cliquables. Petit bonus : cliquer sur le nom du Pokémon (le titre en haut de page) permet de changer le sprite du Pokémon en sa version shiny (un coloris différent). Un son est également joué pour la transition sprite normal -> sprite shiny. Tout cet aspect sur les sprites shiny est géré par le script shiny.js. Un bouton retour permet de retourner à la page index.php.
+- attaque.php : page dédiée à l'affichage d'informations d'une attaque et des Pokémons pouvant l'apprendre. Comme index.php, des requêtes SQL sont préparées avec PDO pour sélectionner une fraction de nos données. De façon analogue aux autres fichiers, il est possible d'accéder aux Pokémons qui apprennent une attaque avec des liens cliquables. Un bouton retour permet de retourner à la page index.php.
 
 D'autres fichiers php sont également dans le projet. Ils ne seront pas ouverts par le navigateur mais sont nécessaires pour le bon fonctionnement de l'application, à savoir :
     - db-pdo.php : vital pour le projet. C'est ici qu'est effectuée la connexion à la base de données. Des modifications sont nécessaires pour exécuter le programme, elles seront détaillées ultérieurement
     - fonctions.php : défini les fonctions php utilisées par les fichiers php principaux, ceux qui seront ouverts par le navigateur
 
---===================--
-    Stack technique
---===================--
+---
+### Stack technique
 
 - WAMP 3.4.2 et XAMPP 8.2.12
 - PHP 8.3.28
@@ -35,17 +31,17 @@ D'autres fichiers php sont également dans le projet. Ils ne seront pas ouverts 
 - Bootstrap 5.3.8
 - JavaScript ES2025 (pas de libraires externes ou de frameworks)
 
---================================--
-    Schéma de la base de données
---================================--
+---
+#### Schéma de la base de données
 
 Ci-dessous se trouve un dessin du schéma relationnel de la base de données utilisée pour ce projet.
 
-![Schéma relationnel du projet](assets/images/BDD.png)
+<p align="center">
+    <img src="assets/images/BDD.png" alt = "BDD">
+</p>
 
---===============================--
-    Installation et utilisation
---===============================--
+---
+#### Installation et utilisation
 
 Prérequis : avoir un serveur WAMP/XAMPP/MAMP etc. avec PHP, MySQL/MariaDB, Apache et phpMyAdmin.
 
@@ -58,59 +54,100 @@ Voici les étapes à réaliser :
 5) S'assurer que le repo git est dans le dossier adéquat (htdocs pour XAMPP, www pour WAMP, etc.)
 6) Ouvrir le fichier avec http://localhost:8080/sae-site-web/index.php (adapter l'URL selon le port configuré)
 
---==========================--
-    Arborescence du projet
---==========================--
+---
+#### Arborescence du projet
 
 Ci-dessous se trouve l'arborescence du projet :
 
 sae-site-web/
+<br>
 ├── assets/
+<br>
 │   ├── images/
+<br>
 │   │   ├── acier.png
+<br>
 │   │   ├── BDD.png
+<br>
 │   │   ├── combat.png
+<br>
 │   │   ├── dragon.png
+<br>
 │   │   ├── eau.png
+<br>
 │   │   ├── electrik.png
+<br>
 │   │   ├── feu.png
+<br>
 │   │   ├── glace.png
+<br>
 │   │   ├── insecte.png
+<br>
 │   │   ├── normal.png
+<br>
 │   │   ├── physique.png
+<br>
 │   │   ├── plante.png
+<br>
 │   │   ├── poison.png
+<br>
 │   │   ├── psy.png
+<br>
 │   │   ├── roche.png
+<br>
 │   │   ├── spéciale.png
+<br>
 │   │   ├── spectre.png
+<br>
 │   │   ├── statut.png
+<br>
 │   │   ├── ténèbres.png
+<br>
 │   │   └── vol.png
+<br>
 │   └── sons/
+<br>
 │       └── shiny.mp3
+<br>
 ├── css/
+<br>
 │   ├── style-attaque.css
+<br>
 │   ├── style-index.css
+<br>
 │   └── style-pkmn.css
+<br>
 ├── js/
+<br>
 │   ├── shiny.js
+<br>
 │   └── tri.js
+<br>
 ├── sql/
+<br>
 │   ├── data-apprend.sql
+<br>
 │   ├── pokemon-data.sql
+<br>
 │   └── schema.sql
+<br>
 ├── .gitignore
+<br>
 ├── attaque.php
+<br>
 ├── db-pdo.php
+<br>
 ├── fonctions.php
+<br>
 ├── index.php
+<br>
 ├── pkmn.php
-└── README
+<br>
+└── README.md
+<br>
 
---========================--
-    Sources et remarques
---========================--
+---
+#### Sources et remarques
 
 Sources :
 - PokeAPI
