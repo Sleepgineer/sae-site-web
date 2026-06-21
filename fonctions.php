@@ -10,6 +10,7 @@ function convertTypesEnImages($types) {
     return $path;
 }
 
+// Fonction pour récupérer les informations relatives aux évolutions d'un Pokémon (sa famille) 
 function recupFamille($id) {
     global $pdo;
 
@@ -24,4 +25,3 @@ function recupFamille($id) {
     $requete->execute([$id]);
     return $requete->fetchAll(PDO::FETCH_ASSOC);
 }
-?>
