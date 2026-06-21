@@ -34,7 +34,6 @@ $pokemons = $stmt->fetchAll();
 </head>
 
 <body>
-    <script src="tri.js"></script>
 
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
@@ -182,6 +181,7 @@ $pokemons = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 
+    <script src="tri.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

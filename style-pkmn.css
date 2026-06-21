@@ -2,3 +2,8 @@ img.evo-img {
     width:60px;
     height:60px;
 }
+
+h1.display-7.fw-bold.trigger-shiny:hover {
+    color:lightsteelblue;
+    transform:scale(1.05);
+}
