@@ -65,9 +65,10 @@ CREATE TABLE attaques (
     id_a INT NOT NULL AUTO_INCREMENT,
     libelle VARCHAR(50) NOT NULL,
     id_type INT NOT NULL,
+    categorie VARCHAR(10),
     pp INT NOT NULL,
     puissance INT DEFAULT NULL,  -- NULL = attaque sans dégâts directs
-    precis INT NOT NULL DEFAULT 100,
+    precis INT DEFAULT NULL,    -- NULL = attaque ne peut pas rater
     CONSTRAINT cle_attaques PRIMARY KEY (id_a),
     CONSTRAINT cle_etrangere_attaques_type
         FOREIGN KEY (id_type)
@@ -151,7 +152,7 @@ CREATE TABLE apprend (
 
 CREATE TABLE talent (
     label VARCHAR(30),
-    detail VARCHAR(100),
+    detail VARCHAR(200),
     CONSTRAINT cle_talent PRIMARY KEY (label)
 );
 

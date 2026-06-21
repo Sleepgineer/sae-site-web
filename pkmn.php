@@ -5,7 +5,7 @@ require 'fonctions.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 // on récupère l'ID dans l'URL et protection contre injection SQL
 
-// Requête SQL pour le Pokémon sélectionné
+// Requête SQL pour le Pokémon sélectionné (infos de base et statistiques)
 $stmt = $pdo->prepare("
     SELECT
         p.*,
@@ -29,18 +29,41 @@ $stmt = $pdo->prepare("
         s.defense,
         s.attaque_spe,
         s.defense_spe,
-        s.vitesse
+        s.vitesse;
 ");
 
 $stmt->execute([$id]);
-$pokemon = $stmt->fetch();
+$pokemon = $stmt->fetch();  
 
 if (!$pokemon) {
     die("Pokémon introuvable.");
 }
 
+// Requête SQL pour récupérer les attaques
+$stmt2 = $pdo->prepare("
+    SELECT att.*, a.*, t.libelle AS nom_type
+    FROM attaques att, apprend a, types t 
+    WHERE a.id_a = att.id_a
+    AND t.id_type = att.id_type
+    AND a.id_pkmn = ?
+    ORDER BY att.libelle;    
+"); 
+
+$stmt2->execute([$id]);
+$attaques = $stmt2->fetchAll();
+
+// Requête SQL pour récupérer les talents
+$stmt3 = $pdo->prepare("
+    SELECT ta.label, ta.detail
+    FROM talent ta, possede po
+    WHERE ta.label = po.label
+    AND po.id_pkmn = ?
+");
+$stmt3->execute([$id]);
+$talents = $stmt3->fetchAll();
+
 $sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' . $id . '.png';
-    $evolutions = recupFamille($pokemon['id_famille']);
+$evolutions = recupFamille($pokemon['id_famille']);
 ?>
 
 <!DOCTYPE html>
@@ -72,10 +95,12 @@ $sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/poke
             </a>
         </div>
     </nav>
-
+    <div class="container text-center mt-4 mb-3">
+        <h1 class="display-7 fw-bold text-secondary"> <?= htmlspecialchars($pokemon['nom']) ?> </h1>
+    </div>
     <div class="container mt-4">
         <div class="row">
-            <!-- Colonne de gauche : infos du Pokémon -->
+            <!-- Colonne 1 de gauche : infos du Pokémon -->
             <div class="col-md-8">
                 <table class="table table-striped table-hover">
                     <thead class="table-secondary">
@@ -109,7 +134,7 @@ $sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/poke
                 </table>
             </div>
 
-            <!-- Colonne de droite : évolutions -->
+            <!-- Colonne 1 de droite : évolutions -->
             <div class="col-md-4">
                 <h4 class="mb-3">Évolutions</h4>
                 <?php if (count($evolutions) > 0): ?>
@@ -142,7 +167,66 @@ $sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/poke
                 <?php endif; ?>
             </div>
         </div>
-
+        <!-- Colonne 2 de gauche : attaques -->
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <h4 class="mb-3">Attaques</h4>
+                <?php if (count($attaques) > 0): ?>
+                    <table class="table table-sm table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Catégorie</th>
+                                <th>PP</th>
+                                <th>Puissance</th>
+                                <th>Précision</th>
+                                <th>Obtention</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($attaques as $att): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($att['libelle']) ?></td>
+                                    <td><?= convertTypesEnImages($att['nom_type']) ?></td>
+                                    <td><?= htmlspecialchars($att['categorie']) ?></td>
+                                    <td><?= htmlspecialchars($att['pp']) ?></td>
+                                    <td><?= $att['puissance'] !== null ? htmlspecialchars($att['puissance']) : '—' ?></td>
+                                    <td><?= $att['precis'] !== null ? htmlspecialchars($att['precis']) . '%' : '—' ?></td>
+                                    <td><?= htmlspecialchars($att['biais']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="text-muted">Aucune attaque enregistrée.</p>
+                <?php endif; ?>
+            </div>
+            <!-- Colonne 2 de droite : talents -->
+            <div class="col-md-4">
+                <h4 class="mb-3">Talents</h4>
+                <?php if (count($talents) > 0): ?>
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nom</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($talents as $tal): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($tal['label']) ?></td>
+                                    <td><?= htmlspecialchars($tal['detail']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="text-muted">Aucun talent enregistré.</p>
+                <?php endif; ?>
+            </div>
+        </div>
         <div class="mt-3">
             <a href="index.php" class="btn btn-secondary">Retour</a>
         </div>
