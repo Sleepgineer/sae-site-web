@@ -79,11 +79,7 @@ $evolutions = recupFamille($pokemon['id_famille']);
 
     <title><?= htmlspecialchars($pokemon['nom']) ?></title>
 
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    >
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style-pkmn.css">
 </head>
 
@@ -96,7 +92,11 @@ $evolutions = recupFamille($pokemon['id_famille']);
         </div>
     </nav>
     <div class="container text-center mt-4 mb-3">
-        <h1 class="display-7 fw-bold text-secondary"> <?= htmlspecialchars($pokemon['nom']) ?> </h1>
+        <h1 class="display-7 fw-bold trigger-shiny" 
+            data-sprite-normal="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= $id ?>.png"
+            data-sprite-shiny="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/<?= $id ?>.png">
+                <?= htmlspecialchars($pokemon['nom']) ?> 
+        </h1>
     </div>
     <div class="container mt-4">
         <div class="row">
@@ -119,7 +119,7 @@ $evolutions = recupFamille($pokemon['id_famille']);
                     </thead>
                     <tbody>
                         <tr>
-                            <td><img src="<?= htmlspecialchars($sprite) ?>" alt="<?= htmlspecialchars($pokemon['nom']) ?>"></td>
+                            <td><img id="main" src="<?= htmlspecialchars($sprite) ?>" alt="<?= htmlspecialchars($pokemon['nom']) ?>"></td>
                             <td><strong><?= htmlspecialchars($pokemon['id_pkmn']) ?></strong></td>
                             <td><?= htmlspecialchars($pokemon['nom']) ?></td>
                             <td><?= convertTypesEnImages($pokemon['types']) ?></td>
@@ -240,10 +240,10 @@ $evolutions = recupFamille($pokemon['id_famille']);
         <div class="mt-3">
             <a href="index.php" class="btn btn-secondary">Retour</a>
         </div>
-    </div>            
+    </div>       
+        <script src="shiny.js"></script>     
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
     </script>
-
 </body>
 </html>
