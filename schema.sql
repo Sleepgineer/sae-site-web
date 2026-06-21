@@ -9,6 +9,9 @@ DROP TABLE IF EXISTS stats;
 DROP TABLE IF EXISTS attaques;
 DROP TABLE IF EXISTS est_type;
 DROP TABLE IF EXISTS evolue_en;
+DROP TABLE IF EXISTS apprend;
+DROP TABLE IF EXISTS talent;
+DROP TABLE IF EXISTS possede;
 
 -- =============================================================
 -- TABLE types
@@ -62,9 +65,10 @@ CREATE TABLE attaques (
     id_a INT NOT NULL AUTO_INCREMENT,
     libelle VARCHAR(50) NOT NULL,
     id_type INT NOT NULL,
+    categorie VARCHAR(10),
     pp INT NOT NULL,
     puissance INT DEFAULT NULL,  -- NULL = attaque sans dégâts directs
-    precis INT NOT NULL DEFAULT 100,
+    precis INT DEFAULT NULL,    -- NULL = attaque ne peut pas rater
     CONSTRAINT cle_attaques PRIMARY KEY (id_a),
     CONSTRAINT cle_etrangere_attaques_type
         FOREIGN KEY (id_type)
@@ -79,6 +83,7 @@ CREATE TABLE attaques (
 -- TABLE : est_type  ← RELATION N-N entre pokemons et types
 -- Un Pokémon peut avoir 1 ou 2 types
 -- Un type peut appartenir à plusieurs Pokémon
+-- On a aussi une relation 1-N entre et attaques et types
 -- =============================================================
 CREATE TABLE est_type (
     id_pkmn INT NOT NULL,
@@ -103,7 +108,8 @@ CREATE TABLE est_type (
 CREATE TABLE evolue_en (
     id_pkmn_base INT NOT NULL,   -- le Pokémon de départ
     id_pkmn_evo INT NOT NULL,   -- le Pokémon d'arrivée
-    methode VARCHAR(50) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
+    methode VARCHAR(100) NOT NULL, -- niveau X, pierre Y, échange, bonheur,...
+    prio INT NOT NULL,  -- niveau de priorite, utile pour l'affichage 
 
     CONSTRAINT cle_evolue_en PRIMARY KEY (id_pkmn_base, id_pkmn_evo),
     CONSTRAINT cle_etrangere_pkmn_base
@@ -118,3 +124,57 @@ CREATE TABLE evolue_en (
         ON UPDATE CASCADE,
     CONSTRAINT chk_evolution CHECK (id_pkmn_base <> id_pkmn_evo)
 );
+
+-- =============================================
+-- TABLE : apprend
+-- Relation N-N : une attaque peut être apprise par plusieurs pokémons et un pokémon peut apprendre plusieurs attaques
+-- ============================================
+CREATE TABLE apprend (
+    id_pkmn INT NOT NULL,
+    id_a INT NOT NULL,
+    biais VARCHAR(50) NOT NULL,  -- par quel moyen le Pokémon apprend l'attaque : niveau, reproduction, CT,...
+    CONSTRAINT cle_apprend PRIMARY KEY (id_pkmn, id_a),
+    CONSTRAINT cle_etrangere_apprend_pkmn 
+        FOREIGN KEY (id_pkmn)
+        REFERENCES pokemon (id_pkmn)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT cle_etrangere_apprend_a 
+        FOREIGN KEY (id_a)
+        REFERENCES attaques (id_a)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- =============================
+-- TABLE : talent
+-- ============================= 
+
+CREATE TABLE talent (
+    label VARCHAR(30),
+    detail VARCHAR(200),
+    CONSTRAINT cle_talent PRIMARY KEY (label)
+);
+
+-- =============================
+-- TABLE : possede
+-- Un Pokémon peut avoir 1 ou 2 talents
+-- Un même talent peut appartenir à plusieurs Pokémons différents 
+-- =============================
+
+CREATE TABLE possede (
+    id_pkmn INT NOT NULL,
+    label VARCHAR(30),
+    CONSTRAINT cle_possede PRIMARY KEY (id_pkmn, label),
+    CONSTRAINT cle_etrangere_possede_pkmn 
+        FOREIGN KEY (id_pkmn)
+        REFERENCES pokemon (id_pkmn)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT cle_etrangere_possede_talent 
+        FOREIGN KEY (label)
+        REFERENCES talent (label)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
