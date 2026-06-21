@@ -41,7 +41,7 @@ if (!$pokemon) {
 
 // Requête SQL pour récupérer les attaques
 $stmt2 = $pdo->prepare("
-    SELECT att.*, a.*, t.libelle AS nom_type
+    SELECT att.id_a AS id_attaque, att.libelle, att.id_type, att.categorie, att.pp, att.puissance, att.precis, a.*, t.libelle AS nom_type
     FROM attaques att, apprend a, types t 
     WHERE a.id_a = att.id_a
     AND t.id_type = att.id_type
@@ -191,9 +191,15 @@ $evolutions = recupFamille($pokemon['id_famille']);
                         <tbody>
                             <?php foreach ($attaques as $att): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($att['libelle']) ?></td>
+                                    <td>
+                                        <a href="attaque.php?id=<?= htmlspecialchars($att['id_attaque']) ?>">
+                                            <?= htmlspecialchars($att['libelle']) ?>
+                                        </a>
+                                    </td>
                                     <td><?= convertTypesEnImages($att['nom_type']) ?></td>
-                                    <td><?= htmlspecialchars($att['categorie']) ?></td>
+                                    <td>
+                                        <img src=<?='images/' . strtolower(trim($att['categorie'])) . '.png'?> alt ="">
+                                    </td>
                                     <td><?= htmlspecialchars($att['pp']) ?></td>
                                     <td><?= $att['puissance'] !== null ? htmlspecialchars($att['puissance']) : '—' ?></td>
                                     <td><?= $att['precis'] !== null ? htmlspecialchars($att['precis']) . '%' : '—' ?></td>
