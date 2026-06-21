@@ -1,7 +1,9 @@
 ####  Préface
 
 Nom du projet : MyPokéDex
+
 Auteurs : Yassine BENMERAH et Chahine CHOUDAR, étudiants en INFO1 à Sup Galilée
+
 Projet réalisé en juin 2026
 
 Ce répertoire contient le travail réalisé pour la SAÉ site web. Notre projet est un Pokédex interactif majoritairement en PHP qui effectue des requêtes SQL en local grâce à la PDO.
@@ -136,6 +138,8 @@ sae-site-web/
 ├── attaque.php
 <br>
 ├── db-pdo.php
+<br>
+├── demo.mp4
 <br>
 ├── fonctions.php
 <br>
