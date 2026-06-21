@@ -2,8 +2,8 @@
 require 'db.php';
 require 'fonctions.php';
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 // on récupère l'ID dans l'URL et protection contre injection SQL
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 // Requête SQL pour récupérer les informations de l'attaque
 $stmt = $pdo->prepare("
@@ -21,7 +21,6 @@ if (!$attaque) {
 }
 
 // Requête SQL pour récupérer tous les Pokémon pouvant apprendre l'attaque
-
 $stmt2 = $pdo->prepare("
     SELECT p.id_pkmn, p.nom, a.biais 
     FROM pokemon p, apprend a, attaques att
@@ -52,14 +51,14 @@ $pokemons = $stmt2->fetchAll();
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     >
-    <link rel="stylesheet" href="style-attaque.css">
+    <link rel="stylesheet" href="css/style-attaque.css">
 </head>
 
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">
-                MyPokeDex
+                MyPokéDex
             </a>
         </div>
     </nav>
@@ -85,7 +84,7 @@ $pokemons = $stmt2->fetchAll();
                             <td><?= htmlspecialchars($attaque['libelle']) ?></td>
                             <td><?= convertTypesEnImages($attaque['nom_type']) ?></td>
                             <td>
-                                <img src=<?='images/' . strtolower(trim($attaque['categorie'])) . '.png'?> alt ="">
+                                <img src=<?='assets/images/' . strtolower(trim($attaque['categorie'])) . '.png'?> alt ="">
                             </td>
                             <td><?= htmlspecialchars($attaque['pp']) ?></td>
                             <td><?= $attaque['puissance'] !== null ? htmlspecialchars($attaque['puissance']) : '—' ?></td>

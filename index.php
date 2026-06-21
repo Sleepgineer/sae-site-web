@@ -4,6 +4,7 @@ require 'fonctions.php';
 
 $recherche = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 
+// Requête SQL pour récupérer les informations de base des Pokémon
 $stmt = $pdo->prepare("
     SELECT p.id_pkmn, p.nom, GROUP_CONCAT(t.libelle SEPARATOR '/') AS types, s.pv, s.attaque, s.defense, s.attaque_spe, s.defense_spe, s.vitesse
     FROM pokemon p, types t, est_type et, stats s
@@ -15,7 +16,7 @@ $stmt = $pdo->prepare("
     ORDER BY p.id_pkmn
 ");
 
-$stmt->execute(['%' . $recherche . '%']);
+$stmt->execute(['%' . $recherche . '%']);   
 $pokemons = $stmt->fetchAll();
 ?>
 
@@ -27,17 +28,17 @@ $pokemons = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Yassine_Benmerah_&_Chahine_Choudar">
 
-    <title>MyPokeDex</title>
+    <title>MyPokéDex</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style-index.css">
+    <link rel="stylesheet" href="css/style-index.css">
 </head>
 
 <body>
 
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.php">MyPokeDex</a>
+            <a class="navbar-brand" href="index.php">MyPokéDex</a>
         </div>
     </nav>
 
@@ -181,7 +182,7 @@ $pokemons = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 
-    <script src="tri.js"></script>
+    <script src="js/tri.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
