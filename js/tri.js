@@ -1,6 +1,6 @@
 function trier(colonne, type, ordre) {
     const tbody = document.getElementById("table");
-    const lignes = Array.from(tbody.querySelectorAll("tr"));
+    const lignes = Array.from(tbody.querySelectorAll("tr"));    // on sélectionne toutes les lignes
 
     lignes.sort(function (ligneA, ligneB) {
         let valeurA = ligneA.children[colonne].textContent.trim();
