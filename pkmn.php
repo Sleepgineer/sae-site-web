@@ -151,11 +151,15 @@ $evolutions = recupFamille($pokemon['id_famille']);
                                 <tr>
                                     <td>
                                         <img class="evo-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= $evo['id_base'] ?>.png" alt="">
-                                        <?= htmlspecialchars($evo['nom_base']) ?>
+                                        <a href="pkmn.php?id=<?= htmlspecialchars($evo['id_base']) ?>">
+                                            <?= htmlspecialchars($evo['nom_base']) ?>
+                                        </a>
                                     </td>
                                     <td>
                                         <img class="evo-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= $evo['id_evo'] ?>.png" alt="">
-                                        <?= htmlspecialchars($evo['nom_evo']) ?>
+                                        <a href="pkmn.php?id=<?= htmlspecialchars($evo['id_evo']) ?>">
+                                            <?= htmlspecialchars($evo['nom_evo']) ?>
+                                        </a>
                                     </td>
                                     <td><?= htmlspecialchars($evo['methode']) ?></td>
                                 </tr>
