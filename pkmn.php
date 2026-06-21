@@ -2,8 +2,8 @@
 require 'db.php';
 require 'fonctions.php';
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 // on récupère l'ID dans l'URL et protection contre injection SQL
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 // Requête SQL pour le Pokémon sélectionné (infos de base et statistiques)
 $stmt = $pdo->prepare("
@@ -33,7 +33,7 @@ $stmt = $pdo->prepare("
 ");
 
 $stmt->execute([$id]);
-$pokemon = $stmt->fetch();  
+$pokemon = $stmt->fetch();  // fetch et non fetchAll car il n'y a qu'une ligne à récupérer
 
 if (!$pokemon) {
     die("Pokémon introuvable.");
@@ -62,8 +62,8 @@ $stmt3 = $pdo->prepare("
 $stmt3->execute([$id]);
 $talents = $stmt3->fetchAll();
 
-$sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' . $id . '.png';
-$evolutions = recupFamille($pokemon['id_famille']);
+$sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' . $id . '.png';   // sprite de base utilisé - source : PokeAPI
+$evolutions = recupFamille($pokemon['id_famille']);     // on récupère les évolutions dans un tableau indexé
 ?>
 
 <!DOCTYPE html>
@@ -80,14 +80,14 @@ $evolutions = recupFamille($pokemon['id_famille']);
     <title><?= htmlspecialchars($pokemon['nom']) ?></title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style-pkmn.css">
+    <link rel="stylesheet" href="css/style-pkmn.css">
 </head>
 
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">
-                MyPokeDex
+                MyPokéDex
             </a>
         </div>
     </nav>
@@ -119,6 +119,7 @@ $evolutions = recupFamille($pokemon['id_famille']);
                     </thead>
                     <tbody>
                         <tr>
+                            <!-- L'id main sera récupéré par shiny.js pour changer le sprite -->
                             <td><img id="main" src="<?= htmlspecialchars($sprite) ?>" alt="<?= htmlspecialchars($pokemon['nom']) ?>"></td>
                             <td><strong><?= htmlspecialchars($pokemon['id_pkmn']) ?></strong></td>
                             <td><?= htmlspecialchars($pokemon['nom']) ?></td>
@@ -198,7 +199,7 @@ $evolutions = recupFamille($pokemon['id_famille']);
                                     </td>
                                     <td><?= convertTypesEnImages($att['nom_type']) ?></td>
                                     <td>
-                                        <img src=<?='images/' . strtolower(trim($att['categorie'])) . '.png'?> alt ="">
+                                        <img src=<?='assets/images/' . strtolower(trim($att['categorie'])) . '.png'?> alt ="">
                                     </td>
                                     <td><?= htmlspecialchars($att['pp']) ?></td>
                                     <td><?= $att['puissance'] !== null ? htmlspecialchars($att['puissance']) : '—' ?></td>
@@ -241,7 +242,7 @@ $evolutions = recupFamille($pokemon['id_famille']);
             <a href="index.php" class="btn btn-secondary">Retour</a>
         </div>
     </div>       
-        <script src="shiny.js"></script>     
+        <script src="js/shiny.js"></script>     
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
     </script>

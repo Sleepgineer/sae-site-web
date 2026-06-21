@@ -4,16 +4,18 @@ require 'db.php';
 // Fonction pour construire le path des images des types
 function convertTypesEnImages($types) {
     $path = '';
-    foreach (explode('/', $types) as $t) {
-        $path .= '<img class="img-type" src="images/' . strtolower(trim($t)) . '.png">';
+    // on parcourt tous les types après avoir retiré le séparateur "/"
+    foreach (explode('/', $types) as $t) {  
+        $path .= '<img class="img-type" src="assets/images/' . strtolower(trim($t)) . '.png">';
     }
     return $path;
 }
 
 // Fonction pour récupérer les informations relatives aux évolutions d'un Pokémon (sa famille) 
 function recupFamille($id) {
-    global $pdo;
+    global $pdo;    // global pour accéder à $pdo déclaré dans db.php
 
+    // Requête SQL pour récupérer les évolutions
     $cmd = "SELECT p1.id_pkmn AS id_base, p2.id_pkmn AS id_evo, p1.nom AS nom_base, p2.nom AS nom_evo, e.methode, e.prio
         FROM pokemon p1, pokemon p2, evolue_en e
         WHERE p1.id_pkmn = e.id_pkmn_base
